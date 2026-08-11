@@ -8,8 +8,8 @@ la prueba de Contrast-Detalle. Esta prueba usualmente se realiza por medio de
 un maniquí de Contraste-Detalle como es el CDMAM. 
 
 El análisis de las imágenes usualmente se realiza por medio de softwares
-automatizados como el cdcom <sup> [1] </sup>. Adicionalmente a esto se utilizan programas
-complementarios como es el caso de CDMAM Analysis <sup> [2] </sup>, el cual es un software
+automatizados como el cdcom  [^1]. Adicionalmente a esto se utilizan programas
+complementarios como es el caso de CDMAM Analysis  [^2], el cual es un software
 de pago que limita su uso en un intervalo de tiempo específico. De esta manera
 las versiones antiguas dejan de funcionar y obligan a comprar una nueva versión
 y un nuevo maniquí, lo cual es inviable para muchos sitio. 
@@ -36,6 +36,7 @@ del arcvivo (_mod) para indicar que ha sido modificado.
 
 La etiqueta DICOM que se modifica es unicamente *StudyDate* (0008,0020).
 
+## Referencias
+[^1]: Karssemeijer, N., and M. A. O. Thijssen. "Determination of contrast-detail curves of mammography systems by automated image analysis." Digital mammography 96 (1996): 155-160. [Cdcom](https://euref.org/download/cdcom-version-1-6-and-cdcom-readme-cdmam3-4/)
 
-[1]: [Cdcom](https://euref.org/download/cdcom-version-1-6-and-cdcom-readme-cdmam3-4/)
-[2]: [CDMAM_Analysis](https://medphys.royalsurrey.nhs.uk/nccpm/tools/cdmam-analysis/)
+[^2]: CDMAM Analysis software [CDMAM_Analysis](https://medphys.royalsurrey.nhs.uk/nccpm/tools/cdmam-analysis/)
