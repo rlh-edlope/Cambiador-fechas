@@ -8,8 +8,8 @@ la prueba de Contrast-Detalle. Esta prueba usualmente se realiza por medio de
 un maniquí de Contraste-Detalle como es el CDMAM. 
 
 El análisis de las imágenes usualmente se realiza por medio de softwares
-automatizados como el cdcom [^1]. Adicionalmente a esto se utilizan programas
-complementarios como es el caso de CDMAM Analysis [^2], el cual es un software
+automatizados como el cdcom <sup> [1] </sup>. Adicionalmente a esto se utilizan programas
+complementarios como es el caso de CDMAM Analysis <sup> [2] </sup>, el cual es un software
 de pago que limita su uso en un intervalo de tiempo específico. De esta manera
 las versiones antiguas dejan de funcionar y obligan a comprar una nueva versión
 y un nuevo maniquí, lo cual es inviable para muchos sitio. 
@@ -28,4 +28,14 @@ Python >= 3.9
 Para usar la herramienta actualmente solo es necesario correr el *script* de
 python, que se encuentra en la carpeta de `Rutina Base`, se abrirá una ventana
 para elegir el/los archivo/s que se van a modificar. Dentro de la rutina el año
-que está configurado es 2008, pero se puede modificar al año que se quiera. 
+que está configurado es 2008, pero se puede modificar al año que se quiera.
+
+Ya que se eligieron lo/s archivo/s se solicitará seleccionar la carpeta donde 
+se guardarán todas las imágenes modificadas. Se añadirá un marcador al nombre
+del arcvivo (_mod) para indicar que ha sido modificado. 
+
+La etiqueta DICOM que se modifica es unicamente *StudyDate* (0008,0020).
+
+
+[1]: [Cdcom](https://euref.org/download/cdcom-version-1-6-and-cdcom-readme-cdmam3-4/)
+[2]: [CDMAM_Analysis](https://medphys.royalsurrey.nhs.uk/nccpm/tools/cdmam-analysis/)
