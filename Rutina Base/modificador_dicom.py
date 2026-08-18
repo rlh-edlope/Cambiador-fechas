@@ -1,5 +1,5 @@
 """
-Prorama para la modifición de una cabecera DICOM para seguir usando el CDMAM
+Programa para la modificación de una cabecera DICOM para seguir usando el CDMAM
 Analysis V1.5.5.
 
 V1.0 del 10/08/26 - Se crea la rutina básica

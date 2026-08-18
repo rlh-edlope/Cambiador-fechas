@@ -10,12 +10,16 @@ V2.0 del 12/08/26 - Se crea la interfáz básica para utilizar la rutina base. S
 
 import wx
 from wx.adv import CalendarCtrl
-from os import environ
+from os import environ, path
 import pydicom
+from platform import system
+import sys
+
+
+
 
 
 #aplicación de modificación de fechas
-
 class mod_app(wx.Frame):
 
     #iniciamos la clase
@@ -23,12 +27,33 @@ class mod_app(wx.Frame):
         super(mod_app, self).__init__(*args, **kargs)
         self.bob()
 
+    #función que depende de la plataforma
+    if system() == 'Linux':
+        def resource_path(self, relative_path):
+            """ Get absolute path to resource, works for dev and for PyInstaller """
+            base_path = getattr(sys, '_MEIPASS', path.dirname(path.abspath(__file__)))
+            return path.join(base_path, relative_path)
+
+
     def bob(self):
         #------------------------------------------------------------
         #                     Ventana General
         #------------------------------------------------------------        
-        #va a faltar un icono
-        #self.SetIcon()
+        #va a faltar un icono depende de la plataforma(?)
+        if system() == 'Linux':
+            bundle = wx.IconBundle()
+            bundle.AddIcon(self.resource_path('CFI_512.png'), wx.BITMAP_TYPE_PNG)
+            bundle.AddIcon(self.resource_path('CFI_256.png'), wx.BITMAP_TYPE_PNG)
+            bundle.AddIcon(self.resource_path('CFI_128.png'), wx.BITMAP_TYPE_PNG)
+            bundle.AddIcon(self.resource_path('CFI_96.png'), wx.BITMAP_TYPE_PNG)
+            bundle.AddIcon(self.resource_path('CFI_72.png'), wx.BITMAP_TYPE_PNG)
+            bundle.AddIcon(self.resource_path('CFI_64.png'), wx.BITMAP_TYPE_PNG)
+            bundle.AddIcon(self.resource_path('CFI_48.png'), wx.BITMAP_TYPE_PNG)
+            bundle.AddIcon(self.resource_path('CFI_32.png'), wx.BITMAP_TYPE_PNG)
+            bundle.AddIcon(self.resource_path('CFI_24.png'), wx.BITMAP_TYPE_PNG)
+            bundle.AddIcon(self.resource_path('CFI_16.png'), wx.BITMAP_TYPE_PNG)
+            self.SetIcons(bundle)        
+        
         
         #ventana princial
         self.SetSize((540,530))
