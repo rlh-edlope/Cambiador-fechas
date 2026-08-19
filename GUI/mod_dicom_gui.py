@@ -5,7 +5,8 @@ Analysis V1.5.5. Esta es la interfaz gráfica para que sea más fácil usar.
 V1.0 del 10/08/26 - Se crea la rutina básica
 V2.0 del 12/08/26 - Se crea la interfáz básica para utilizar la rutina base. Se
                     crea primeramente la versión de Linux (porque aquí se 
-                    programa) y se usa wx para la interfaz. 
+                    programa) y se usa wx para la interfaz.
+V2.1 del 18/08/26 - Se optimiza la interfaz para que sea multiplataforma (win y Linux) 
 """
 
 import wx
@@ -52,11 +53,16 @@ class mod_app(wx.Frame):
             bundle.AddIcon(self.resource_path('CFI_32.png'), wx.BITMAP_TYPE_PNG)
             bundle.AddIcon(self.resource_path('CFI_24.png'), wx.BITMAP_TYPE_PNG)
             bundle.AddIcon(self.resource_path('CFI_16.png'), wx.BITMAP_TYPE_PNG)
-            self.SetIcons(bundle)        
+            self.SetIcons(bundle)
+        elif system() == 'Windows':
+            self.SetIcon(wx.Icon('CFI.ico'))       
         
         
         #ventana princial
-        self.SetSize((540,530))
+        if system() == 'Linux':
+            self.SetSize((540,530))
+        elif system() == 'Windows':
+            self.SetSize((540,485))
         self.SetTitle('Modificador de Fecha')
         self.pnl = wx.Panel(self)
         self.pnl.SetBackgroundColour((1, 55, 110))
@@ -103,11 +109,14 @@ class mod_app(wx.Frame):
 
         #box de configuración
         configSB = wx.StaticBox(self.pnl, label='Configuración')
+        configSB.SetForegroundColour((255,255,255))
         configSBS  = wx.StaticBoxSizer(configSB, wx.VERTICAL)
 
         sufijoText = wx.StaticText(configSB,label='Sufijo')
+        sufijoText.SetForegroundColour((255,255,255))
         self.sufijoTextCtrl = wx.TextCtrl(configSB, value='_mod', style=wx.TE_CENTRE)
         fechaText = wx.StaticText(configSB, label ='Fecha')
+        fechaText.SetForegroundColour((255,255,255))
         self.fecha = CalendarCtrl(configSB, date=wx.DateTime(15,5,2010))
 
         configSBS.Add(sufijoText, flag=wx.ALIGN_CENTER|wx.ALL, border=5)
@@ -119,14 +128,21 @@ class mod_app(wx.Frame):
 
         #se añade un static box sizer para que esté la salida
         outSB = wx.StaticBox(self.pnl, label='Directorio de salida')
+        outSB.SetForegroundColour((255,255,255))
         outSBS = wx.StaticBoxSizer(outSB, wx.VERTICAL)
         hBS = wx.BoxSizer(wx.HORIZONTAL)
-        self.savepathTextCtrl = wx.TextCtrl(outSB,
+        if system() == 'Linux':
+            self.savepathTextCtrl = wx.TextCtrl(outSB,
                                             value=environ.get('HOME') or environ.get('USERPROFILE'),
                                             style=wx.TE_CENTRE, size=(400,33))
+        elif system() == 'Windows':
+            self.savepathTextCtrl = wx.TextCtrl(outSB,
+                                            value=environ.get('HOME') or environ.get('USERPROFILE'),
+                                            style=wx.TE_CENTRE, size=(400,22))
+
         self.savepathButton = wx.Button(outSB, label='...')
-        hBS.Add(self.savepathTextCtrl)        
-        hBS.Add(self.savepathButton)        
+        hBS.Add(self.savepathTextCtrl, flag=wx.ALIGN_CENTER|wx.ALL, border=5)        
+        hBS.Add(self.savepathButton, flag=wx.ALIGN_CENTER|wx.ALL, border=5)        
         
         outSBS.Add(hBS, flag=wx.ALIGN_CENTER|wx.ALL, border=5)
         
@@ -140,6 +156,7 @@ class mod_app(wx.Frame):
         genSizer.Add(self.cambioButton, flag=wx.ALIGN_CENTER|wx.ALL, border=5)
 
         self.pnl.SetSizer(genSizer)
+        self.pnl.Layout() #muy necesario en windows
 
         #------------------------------------------------------------
         #                     Binds
@@ -176,6 +193,7 @@ class mod_app(wx.Frame):
                 return     
 
             self.savepathTextCtrl.SetValue(dirDialog.GetPath())
+            print(dirDialog.GetPath())
 
     def OnCambiar(self, e):
         #rutina para cambiar las fechas
@@ -187,11 +205,17 @@ class mod_app(wx.Frame):
                 return     
 
             #obtenemos la información necesaria
-            savepath = self.savepathTextCtrl.GetValue()+'/'
-            fecha = self.fecha.GetDate().Format('%Y%m%d')
+            if system() == 'Linux':
+                savepath = self.savepathTextCtrl.GetValue()+'/'
+            elif system() == 'Windows': 
+                savepath = self.savepathTextCtrl.GetValue()+'\\'
 
+            fecha = self.fecha.GetDate().Format('%Y%m%d')
             for file in fileDialog.GetPaths():
-                name = file.split('/')[-1]
+                if system() == 'Linux':
+                    name = file.split('/')[-1]
+                elif system() == 'Windows':
+                    name = file.split('\\')[-1]
                 try:
                     im = pydicom.dcmread(file)
                 except:
@@ -201,12 +225,21 @@ class mod_app(wx.Frame):
                     errorDia.ShowModal()
                     return
                 im.StudyDate = fecha
-                if name.find('.dcm') == -1 and name.find('.DCM') == -1:
-                    
-                    pydicom.dcmwrite(savepath+name+'_mod.dcm', im)
-                else:
-                    pydicom.dcmwrite(savepath+'/'+name[:-4]+'_mod.dcm', im)
-                
+
+                try:
+                    if name.find('.dcm') == -1 and name.find('.DCM') == -1:
+                        pydicom.dcmwrite(savepath+name+'_mod.dcm', im)
+                    else:
+                        if system() == 'Linux':
+                            pydicom.dcmwrite(savepath+'/'+name[:-4]+'_mod.dcm', im)
+                        elif system() == 'Windows':
+                            pydicom.dcmwrite(savepath+'\\'+name[:-4]+'_mod.dcm', im)
+                except:
+                    errorDia = wx.MessageDialog(self, 'No se ha podido guardar la imagen dicom\nrevise el archivo',
+                                        caption='Error al guardar %s' % name,
+                                     style=wx.OK|wx.ICON_ERROR)
+                    errorDia.ShowModal()
+                    return
 
             wx.MessageBox('Todos los archivos modificados ✔','Estado',wx.OK|wx.ICON_INFORMATION)
 
