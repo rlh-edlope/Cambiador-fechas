@@ -174,7 +174,7 @@ class mod_app(wx.Frame):
 
     def OnAbout(self, e):
         #rutina de información about
-        wx.MessageBox("Mod fecha Dicom \nV 2.0 \n Contacto: edlope@fisica.unam.mx \n RLH - 17/08/2026",
+        wx.MessageBox("Mod fecha Dicom \nV 2.1 \n Contacto: edlope@fisica.unam.mx \n RLH - 18/08/2026",
                       "Acerca de...", wx.OK|wx.ICON_INFORMATION)
 
     def OnHelp(self,e):
