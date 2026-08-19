@@ -1,4 +1,13 @@
 # Cambiador-fechas
+
+<p align="center">
+  <img src="GUI/CFI_256.png" alt="logo" width="144">
+</p>
+
+![Version](https://img.shields.io/badge/version-V2.1.0-blue)
+[![Python](https://img.shields.io/badge/python-3.9%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20Windows-lightgrey.svg)
+
 Programa simple para modificar la fecha de estudio de archivo DICOM por medio 
 de Python.
 
@@ -48,6 +57,10 @@ Para iniciar la interfaz gráfica solo se requiere correr el *scrip* de python
 dentro de la carpeta `GUI` y tener instalado wxPython.
 Si así lo desea también puede hacer uso de nuestros binarios compilados para correr
 o instalar la aplicación directamente, hay versiones tanto para windows como para linux.
+
+<p align="center">
+  <img src="add/interfaz.png" alt="logo" width="500">
+</p>
 
 La compilación de la aplicación se hizo por medio de CXFrezee y Pyinstaller. 
 
