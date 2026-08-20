@@ -29,11 +29,10 @@ class mod_app(wx.Frame):
         self.bob()
 
     #función que depende de la plataforma
-    if system() == 'Linux':
-        def resource_path(self, relative_path):
-            """ Get absolute path to resource, works for dev and for PyInstaller """
-            base_path = getattr(sys, '_MEIPASS', path.dirname(path.abspath(__file__)))
-            return path.join(base_path, relative_path)
+    def resource_path(self, relative_path):
+        """ Get absolute path to resource, works for dev and for PyInstaller """
+        base_path = getattr(sys, '_MEIPASS', path.dirname(path.abspath(__file__)))
+        return path.join(base_path, relative_path)
 
 
     def bob(self):
@@ -55,7 +54,7 @@ class mod_app(wx.Frame):
             bundle.AddIcon(self.resource_path('CFI_16.png'), wx.BITMAP_TYPE_PNG)
             self.SetIcons(bundle)
         elif system() == 'Windows':
-            self.SetIcon(wx.Icon('CFI.ico'))       
+            self.SetIcon(wx.Icon(self.resource_path('CFI.ico')))       
         
         
         #ventana princial
